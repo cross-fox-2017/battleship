@@ -6,6 +6,7 @@ const rl = readline.createInterface({
 })
 
 var papan = [];
+
 function battleship() {
     console.log("AC : Aircraft carrier(5)");
     console.log("BS : Battleship(4)");
@@ -32,61 +33,56 @@ function battleship() {
         }
         papan.push(blok)
     }
-    var tmp1 = []
-    var tmp2 = []
-    var i = 0
-    while (i < 14) {
-        var random1 = Math.ceil(Math.random() * 10)
-        var random2 = Math.ceil(Math.random() * 10)
-        tmp1.push(random1)
-        tmp2.push(random2)
-        if (tmp1.indexOf(random1) != -1 && tmp2.indexOf(random2) != -1) {
-            if (i < 2) {
-                papan[random1][random2] = "DS"
-            } else if (i < 7) {
-                papan[random1][random2] = "AC"
-            } else if (i < 11) {
-                papan[random1][random2] = "BS"
-            } else if (i < 14) {
-                papan[random1][random2] = "CR"
-            }
-            i++
-        }
+
+    var random = Math.ceil(Math.random() * 4)
+    var ramdom2 = Math.ceil(Math.random()*2)
+    for (var i = 0; i < 5; i++) {
+        papan[random+i][random] = "AC" //5
     }
+    for (var i = 0; i < 4; i++) {
+        papan[random+i][random+1+ramdom2] = "BS" //4
+    }
+    for (var i = 0; i < 3; i++) {
+        papan[random+i+ramdom2][random+2+ramdom2] = "CR" //3
+    }
+    for (var i = 0; i < 2; i++) {
+        papan[random+i+ramdom2][random+3+ramdom2+1] = "DS" //2
+    }
+
     return papan;
 }
 console.log(battleship());
 
-function run(){
-  var status = 0
-  for (var i = 1; i < 11; i++) {
-    if(papan[i].indexOf("AC") != -1 || papan[i].indexOf("CR") != -1 || papan[i].indexOf("BS") != -1 || papan[i].indexOf("DS") != -1){
-      status ++
-      break;
+function run() {
+    var status = 0
+    for (var i = 1; i < 11; i++) {
+        if (papan[i].indexOf("AC") != -1 || papan[i].indexOf("CR") != -1 || papan[i].indexOf("BS") != -1 || papan[i].indexOf("DS") != -1) {
+            status++
+            break;
+        }
     }
-  }
-  if(status == 0 ){
-    console.log(`Selamat Kamu Menang`)
-    rl.close()
-    return
-  }
+    if (status == 0) {
+        console.log(`Selamat Kamu Menang`)
+        rl.close()
+        return
+    }
 
     rl.question("Luncurkan Misil :", (misil) => {
-      misil = misil.toString().split("")
-      var kode1 = (misil[0].toUpperCase().charCodeAt())-64
-      var kode2 = Number(misil[1])
-      if(misil.length==3){
-          kode2 = Number(misil[1]+misil[2])
-      }
-      if(typeof(kode1)=="number" && typeof(kode2)=="number" && misil.length < 4 && misil.length>1){
-        papan[kode1][kode2] = " "
-        console.log(papan);
-        return run()
-      }else{
-        console.log(`Kode Misil Salah`);
-        return run()
-        rl.close()
-      }
+        misil = misil.toString().split("")
+        var kode1 = (misil[0].toUpperCase().charCodeAt()) - 64
+        var kode2 = Number(misil[1])
+        if (misil.length == 3) {
+            kode2 = Number(misil[1] + misil[2])
+        }
+        if (typeof(kode1) == "number" && typeof(kode2) == "number" && misil.length < 4 && misil.length > 1) {
+            papan[kode1][kode2] = " "
+            console.log(papan);
+            return run()
+        } else {
+            console.log(`Kode Misil Salah`);
+            return run()
+            rl.close()
+        }
     })
 }
 
