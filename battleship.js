@@ -56,3 +56,38 @@ function battleship() {
     return papan;
 }
 console.log(battleship());
+
+function run(){
+  var status = 0
+  for (var i = 1; i < 11; i++) {
+    if(papan[i].indexOf("AC") != -1 || papan[i].indexOf("CR") != -1 || papan[i].indexOf("BS") != -1 || papan[i].indexOf("DS") != -1){
+      status ++
+      break;
+    }
+  }
+  if(status == 0 ){
+    console.log(`Selamat Kamu Menang`)
+    rl.close()
+    return
+  }
+
+    rl.question("Luncurkan Misil :", (misil) => {
+      misil = misil.toString().split("")
+      var kode1 = (misil[0].toUpperCase().charCodeAt())-64
+      var kode2 = Number(misil[1])
+      if(misil.length==3){
+          kode2 = Number(misil[1]+misil[2])
+      }
+      if(typeof(kode1)=="number" && typeof(kode2)=="number" && misil.length < 4 && misil.length>1){
+        papan[kode1][kode2] = " "
+        console.log(papan);
+        return run()
+      }else{
+        console.log(`Kode Misil Salah`);
+        return run()
+        rl.close()
+      }
+    })
+}
+
+run()
